@@ -104,12 +104,24 @@ static double ToDouble(NSNumber* data) { return [FLTGoogleMapJsonConversions toD
     if ([circlesToAdd isKindOfClass:[NSArray class]]) {
       [_circlesController addCircles:circlesToAdd];
     }
+
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver: self selector:   @selector(deviceOrientationDidChange:) name: UIDeviceOrientationDidChangeNotification object: nil];
   }
   return self;
 }
 
+- (void)deviceOrientationDidChange:(NSNotification *)notification {
+  _mapView.padding = UIEdgeInsetsMake(0, 0, [UIScreen mainScreen].bounds.size.height * 0.1 - 20.0, 0);
+}
+
 - (UIView*)view {
   return _mapView;
+}
+
+-(void) dealloc{
+  [[NSNotificationCenter defaultCenter] removeObserver: self];
+  [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
 }
 
 - (void)onMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
@@ -280,10 +292,14 @@ static double ToDouble(NSNumber* data) { return [FLTGoogleMapJsonConversions toD
 - (void)setMyLocationEnabled:(BOOL)enabled {
   _mapView.myLocationEnabled = enabled;
   _mapView.settings.myLocationButton = enabled;
+
+  _mapView.padding = UIEdgeInsetsMake(0, 0, [UIScreen mainScreen].bounds.size.height * 0.1 - 20.0, 0);
 }
 
 - (void)setMyLocationButtonEnabled:(BOOL)enabled {
   _mapView.settings.myLocationButton = enabled;
+
+  _mapView.padding = UIEdgeInsetsMake(0, 0, [UIScreen mainScreen].bounds.size.height * 0.1 - 20.0, 0);
 }
 
 #pragma mark - GMSMapViewDelegate methods
