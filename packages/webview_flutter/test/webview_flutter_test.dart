@@ -156,7 +156,7 @@ void main() {
     expect(controller, isNotNull);
     expect(fakePlatformViewsController.lastCreatedView.hasCache, true);
 
-    await controller.clearCache();
+    await controller.clearCache(true);
 
     expect(fakePlatformViewsController.lastCreatedView.hasCache, false);
   });

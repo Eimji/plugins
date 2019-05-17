@@ -229,7 +229,7 @@ class SampleMenu extends StatelessWidget {
   }
 
   void _onClearCache(WebViewController controller, BuildContext context) async {
-    await controller.clearCache();
+    await controller.clearCache(true);
     Scaffold.of(context).showSnackBar(const SnackBar(
       content: Text("Cache cleared."),
     ));

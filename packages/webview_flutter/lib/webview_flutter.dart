@@ -506,12 +506,14 @@ class WebViewController {
   ///	4. Local Storage.
   ///
   /// Note: Calling this method also triggers a reload.
-  Future<void> clearCache() async {
+  Future<void> clearCache(bool shouldReload) async {
     // TODO(amirh): remove this on when the invokeMethod update makes it to stable Flutter.
     // https://github.com/flutter/flutter/issues/26431
     // ignore: strong_mode_implicit_dynamic_method
     await _channel.invokeMethod("clearCache");
-    return reload();
+
+    if (shouldReload)
+      return reload();
   }
 
   Future<void> _updateWidget(WebView widget) async {
