@@ -93,6 +93,47 @@ void main() {
 
     pageLoads.close();
   });
+
+  test('JavaScriptChannel', () async {
+    final Completer<WebViewController> controllerCompleter =
+        Completer<WebViewController>();
+    final Completer<void> pageLoaded = Completer<void>();
+    final List<String> messagesReceived = <String>[];
+    await pumpWidget(
+      Directionality(
+        textDirection: TextDirection.ltr,
+        child: WebView(
+          key: GlobalKey(),
+          // This is the data URL for: '<!DOCTYPE html>'
+          initialUrl:
+              'data:text/html;charset=utf-8;base64,PCFET0NUWVBFIGh0bWw+',
+          onWebViewCreated: (WebViewController controller) {
+            controllerCompleter.complete(controller);
+          },
+          javascriptMode: JavascriptMode.unrestricted,
+          // TODO(iskakaushik): Remove this when collection literals makes it to stable.
+          // ignore: prefer_collection_literals
+          javascriptChannels: <JavascriptChannel>[
+            JavascriptChannel(
+              name: 'Echo',
+              onMessageReceived: (JavascriptMessage message) {
+                messagesReceived.add(message.message);
+              },
+            ),
+          ].toSet(),
+          onPageFinished: (String url) {
+            pageLoaded.complete(null);
+          },
+        ),
+      ),
+    );
+    final WebViewController controller = await controllerCompleter.future;
+    await pageLoaded.future;
+
+    expect(messagesReceived, isEmpty);
+    await controller.evaluateJavascript('Echo.postMessage("hello");');
+    expect(messagesReceived, equals(<String>['hello']));
+  });
 }
 
 Future<void> pumpWidget(Widget widget) {
