@@ -30,6 +30,8 @@ interface GoogleMapOptionsSink {
 
   void setMyLocationButtonEnabled(boolean myLocationButtonEnabled);
 
+  void setMyLocationButtonVerticalPadding(int myLocationButtonVerticalPadding);
+
   void setInitialMarkers(Object initialMarkers);
 
   void setInitialPolygons(Object initialPolygons);

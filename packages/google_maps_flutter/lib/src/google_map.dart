@@ -30,6 +30,7 @@ class GoogleMap extends StatefulWidget {
     this.tiltGesturesEnabled = true,
     this.myLocationEnabled = false,
     this.myLocationButtonEnabled = true,
+    this.myLocationButtonVerticalPadding = 0,
     this.markers,
     this.polygons,
     this.polylines,
@@ -149,6 +150,10 @@ class GoogleMap extends StatefulWidget {
   /// See also:
   ///   * [myLocationEnabled] parameter.
   final bool myLocationButtonEnabled;
+
+  /// The my-location button is set with top padding for Android and bottom padding for iOS. 
+  /// The default value is 0.
+  final int myLocationButtonVerticalPadding;
 
   /// Which gestures should be consumed by the map.
   ///
@@ -347,6 +352,7 @@ class _GoogleMapOptions {
     this.zoomGesturesEnabled,
     this.myLocationEnabled,
     this.myLocationButtonEnabled,
+    this.myLocationButtonVerticalPadding,
   });
 
   static _GoogleMapOptions fromWidget(GoogleMap map) {
@@ -362,6 +368,7 @@ class _GoogleMapOptions {
       zoomGesturesEnabled: map.zoomGesturesEnabled,
       myLocationEnabled: map.myLocationEnabled,
       myLocationButtonEnabled: map.myLocationButtonEnabled,
+      myLocationButtonVerticalPadding: map.myLocationButtonVerticalPadding,
     );
   }
 
@@ -387,6 +394,8 @@ class _GoogleMapOptions {
 
   final bool myLocationButtonEnabled;
 
+  final int myLocationButtonVerticalPadding;
+
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> optionsMap = <String, dynamic>{};
 
@@ -407,6 +416,7 @@ class _GoogleMapOptions {
     addIfNonNull('trackCameraPosition', trackCameraPosition);
     addIfNonNull('myLocationEnabled', myLocationEnabled);
     addIfNonNull('myLocationButtonEnabled', myLocationButtonEnabled);
+    addIfNonNull('myLocationButtonVerticalPadding', myLocationButtonVerticalPadding);
 
     return optionsMap;
   }

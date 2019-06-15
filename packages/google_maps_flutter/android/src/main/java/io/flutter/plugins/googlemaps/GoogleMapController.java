@@ -73,6 +73,7 @@ final class GoogleMapController
   private boolean trackCameraPosition = false;
   private boolean myLocationEnabled = false;
   private boolean myLocationButtonEnabled = false;
+  private int myLocationButtonVerticalPadding = 0;
   private boolean disposed = false;
   private final float density;
   private MethodChannel.Result mapReadyResult;
@@ -547,6 +548,17 @@ final class GoogleMapController
   }
 
   @Override
+  public void setMyLocationButtonVerticalPadding(int myLocationButtonVerticalPadding) {
+    if (this.myLocationButtonVerticalPadding == myLocationButtonVerticalPadding) {
+      return;
+    }
+    this.myLocationButtonVerticalPadding = myLocationButtonVerticalPadding;
+    if (googleMap != null) {
+      updateMyLocationSettings();
+    }
+  }
+
+  @Override
   public void setInitialMarkers(Object initialMarkers) {
     this.initialMarkers = (List<Object>) initialMarkers;
     if (googleMap != null) {
@@ -604,13 +616,13 @@ final class GoogleMapController
       //noinspection ResourceType
       googleMap.setMyLocationEnabled(myLocationEnabled);
       googleMap.getUiSettings().setMyLocationButtonEnabled(myLocationButtonEnabled);
-      if (myLocationButtonEnabled) {
+      if (myLocationButtonEnabled && myLocationButtonVerticalPadding > 0) {
         View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
         // position on right bottom
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        rlp.setMargins(0, 80, 80, 0);        
+        rlp.setMargins(0, myLocationButtonVerticalPadding, myLocationButtonVerticalPadding, 0);        
       } 
     } else {
       // TODO(amirh): Make the options update fail.

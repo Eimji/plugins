@@ -44,6 +44,7 @@ static double ToDouble(NSNumber* data) { return [FLTGoogleMapJsonConversions toD
 
 @implementation FLTGoogleMapController {
   GMSMapView* _mapView;
+  int _mapViewBottomPadding;
   int64_t _viewId;
   FlutterMethodChannel* _channel;
   BOOL _trackCameraPosition;
@@ -120,7 +121,7 @@ static double ToDouble(NSNumber* data) { return [FLTGoogleMapJsonConversions toD
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification {
-  _mapView.padding = UIEdgeInsetsMake(0, 0, [UIScreen mainScreen].bounds.size.height * 0.1 - 20.0, 0);
+  _mapView.padding = UIEdgeInsetsMake(0, 0, _mapViewBottomPadding, 0);
 }
 
 - (UIView*)view {
@@ -322,14 +323,17 @@ static double ToDouble(NSNumber* data) { return [FLTGoogleMapJsonConversions toD
 - (void)setMyLocationEnabled:(BOOL)enabled {
   _mapView.myLocationEnabled = enabled;
   _mapView.settings.myLocationButton = enabled;
-
-  _mapView.padding = UIEdgeInsetsMake(0, 0, [UIScreen mainScreen].bounds.size.height * 0.1 - 20.0, 0);
 }
 
 - (void)setMyLocationButtonEnabled:(BOOL)enabled {
   _mapView.settings.myLocationButton = enabled;
+}
 
-  _mapView.padding = UIEdgeInsetsMake(0, 0, [UIScreen mainScreen].bounds.size.height * 0.1 - 20.0, 0);
+- (void)setMyLocationButtonVerticalPadding:(int)padding {
+  if (_mapView.settings.myLocationButton && padding > 0) {
+    _mapViewBottomPadding = padding;
+    _mapView.padding = UIEdgeInsetsMake(0, 0, _mapViewBottomPadding, 0);
+  }
 }
 
 - (NSString*)setMapStyle:(NSString*)mapStyle {
@@ -542,5 +546,9 @@ static void InterpretMapOptions(NSDictionary* data, id<FLTGoogleMapOptionsSink> 
   NSNumber* myLocationButtonEnabled = data[@"myLocationButtonEnabled"];
   if (myLocationButtonEnabled) {
     [sink setMyLocationButtonEnabled:ToBool(myLocationButtonEnabled)];
+  }
+  NSNumber* myLocationButtonVerticalPadding = data[@"myLocationButtonVerticalPadding"];
+  if (myLocationButtonVerticalPadding) {
+    [sink setMyLocationButtonVerticalPadding:ToInt(myLocationButtonVerticalPadding)];
   }
 }

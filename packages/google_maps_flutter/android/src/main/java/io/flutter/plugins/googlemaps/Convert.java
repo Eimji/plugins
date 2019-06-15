@@ -299,6 +299,10 @@ class Convert {
     if (myLocationButtonEnabled != null) {
       sink.setMyLocationButtonEnabled(toBoolean(myLocationButtonEnabled));
     }
+    final Object myLocationButtonVerticalPadding = data.get("myLocationButtonVerticalPadding");
+    if (myLocationButtonVerticalPadding != null) {
+      sink.setMyLocationButtonVerticalPadding(toInt(myLocationButtonVerticalPadding));
+    }
   }
 
   /** Returns the dartMarkerId of the interpreted marker. */

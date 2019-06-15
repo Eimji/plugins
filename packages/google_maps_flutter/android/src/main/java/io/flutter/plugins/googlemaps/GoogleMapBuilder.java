@@ -16,6 +16,7 @@ class GoogleMapBuilder implements GoogleMapOptionsSink {
   private boolean trackCameraPosition = false;
   private boolean myLocationEnabled = false;
   private boolean myLocationButtonEnabled = false;
+  private int myLocationButtonVerticalPadding = 0;
   private Object initialMarkers;
   private Object initialPolygons;
   private Object initialPolylines;
@@ -28,6 +29,7 @@ class GoogleMapBuilder implements GoogleMapOptionsSink {
     controller.init();
     controller.setMyLocationEnabled(myLocationEnabled);
     controller.setMyLocationButtonEnabled(myLocationButtonEnabled);
+    controller.setMyLocationButtonVerticalPadding(myLocationButtonVerticalPadding);
     controller.setTrackCameraPosition(trackCameraPosition);
     controller.setInitialMarkers(initialMarkers);
     controller.setInitialPolygons(initialPolygons);
@@ -98,6 +100,11 @@ class GoogleMapBuilder implements GoogleMapOptionsSink {
   @Override
   public void setMyLocationButtonEnabled(boolean myLocationButtonEnabled) {
     this.myLocationButtonEnabled = myLocationButtonEnabled;
+  }
+
+  @Override
+  public void setMyLocationButtonVerticalPadding(int myLocationButtonVerticalPadding) {
+    this.myLocationButtonVerticalPadding = myLocationButtonVerticalPadding;
   }
 
   @Override
