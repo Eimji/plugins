@@ -31,6 +31,10 @@ class GoogleMap extends StatefulWidget {
     this.myLocationEnabled = false,
     this.myLocationButtonEnabled = true,
     this.myLocationButtonVerticalPadding = 0,
+
+    /// If no padding is specified default padding will be 0.
+    this.padding = const EdgeInsets.all(0),
+    this.indoorViewEnabled = false,
     this.markers,
     this.polygons,
     this.polylines,
@@ -73,6 +77,9 @@ class GoogleMap extends StatefulWidget {
 
   /// True if the map view should respond to tilt gestures.
   final bool tiltGesturesEnabled;
+
+  /// Padding to be set on map. See https://developers.google.com/maps/documentation/android-sdk/map#map_padding for more details.
+  final EdgeInsets padding;
 
   /// Markers to be placed on the map.
   final Set<Marker> markers;
@@ -154,6 +161,8 @@ class GoogleMap extends StatefulWidget {
   /// The my-location button is set with top padding for Android and bottom padding for iOS. 
   /// The default value is 0.
   final int myLocationButtonVerticalPadding;
+  /// Enables or disables the indoor view from the map
+  final bool indoorViewEnabled;
 
   /// Which gestures should be consumed by the map.
   ///
@@ -353,6 +362,8 @@ class _GoogleMapOptions {
     this.myLocationEnabled,
     this.myLocationButtonEnabled,
     this.myLocationButtonVerticalPadding,
+    this.padding,
+    this.indoorViewEnabled,
   });
 
   static _GoogleMapOptions fromWidget(GoogleMap map) {
@@ -369,6 +380,8 @@ class _GoogleMapOptions {
       myLocationEnabled: map.myLocationEnabled,
       myLocationButtonEnabled: map.myLocationButtonEnabled,
       myLocationButtonVerticalPadding: map.myLocationButtonVerticalPadding,
+      padding: map.padding,
+      indoorViewEnabled: map.indoorViewEnabled,
     );
   }
 
@@ -395,6 +408,9 @@ class _GoogleMapOptions {
   final bool myLocationButtonEnabled;
 
   final int myLocationButtonVerticalPadding;
+  final EdgeInsets padding;
+
+  final bool indoorViewEnabled;
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> optionsMap = <String, dynamic>{};
@@ -418,6 +434,13 @@ class _GoogleMapOptions {
     addIfNonNull('myLocationButtonEnabled', myLocationButtonEnabled);
     addIfNonNull('myLocationButtonVerticalPadding', myLocationButtonVerticalPadding);
 
+    addIfNonNull('padding', <double>[
+      padding?.top,
+      padding?.left,
+      padding?.bottom,
+      padding?.right,
+    ]);
+    addIfNonNull('indoorEnabled', indoorViewEnabled);
     return optionsMap;
   }
 

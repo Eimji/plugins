@@ -74,6 +74,7 @@ final class GoogleMapController
   private boolean myLocationEnabled = false;
   private boolean myLocationButtonEnabled = false;
   private int myLocationButtonVerticalPadding = 0;
+  private boolean indoorEnabled = true;
   private boolean disposed = false;
   private final float density;
   private MethodChannel.Result mapReadyResult;
@@ -168,6 +169,7 @@ final class GoogleMapController
   @Override
   public void onMapReady(GoogleMap googleMap) {
     this.googleMap = googleMap;
+    this.googleMap.setIndoorEnabled(this.indoorEnabled);
     googleMap.setOnInfoWindowClickListener(this);
     if (mapReadyResult != null) {
       mapReadyResult.success(null);
@@ -521,6 +523,17 @@ final class GoogleMapController
   }
 
   @Override
+  public void setPadding(float top, float left, float bottom, float right) {
+    if (googleMap != null) {
+      googleMap.setPadding(
+          (int) (left * density),
+          (int) (top * density),
+          (int) (right * density),
+          (int) (bottom * density));
+    }
+  }
+
+  @Override
   public void setZoomGesturesEnabled(boolean zoomGesturesEnabled) {
     googleMap.getUiSettings().setZoomGesturesEnabled(zoomGesturesEnabled);
   }
@@ -641,5 +654,9 @@ final class GoogleMapController
     }
     return context.checkPermission(
         permission, android.os.Process.myPid(), android.os.Process.myUid());
+  }
+
+  public void setIndoorEnabled(boolean indoorEnabled) {
+    this.indoorEnabled = indoorEnabled;
   }
 }

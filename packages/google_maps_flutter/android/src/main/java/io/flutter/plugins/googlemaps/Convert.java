@@ -271,6 +271,15 @@ class Convert {
           toFloatWrapper(zoomPreferenceData.get(0)), //
           toFloatWrapper(zoomPreferenceData.get(1)));
     }
+    final Object padding = data.get("padding");
+    if (padding != null) {
+      final List<?> paddingData = toList(padding);
+      sink.setPadding(
+          toFloat(paddingData.get(0)),
+          toFloat(paddingData.get(1)),
+          toFloat(paddingData.get(2)),
+          toFloat(paddingData.get(3)));
+    }
     final Object rotateGesturesEnabled = data.get("rotateGesturesEnabled");
     if (rotateGesturesEnabled != null) {
       sink.setRotateGesturesEnabled(toBoolean(rotateGesturesEnabled));
@@ -302,6 +311,9 @@ class Convert {
     final Object myLocationButtonVerticalPadding = data.get("myLocationButtonVerticalPadding");
     if (myLocationButtonVerticalPadding != null) {
       sink.setMyLocationButtonVerticalPadding(toInt(myLocationButtonVerticalPadding));
+    final Object indoorEnabled = data.get("indoorEnabled");
+    if (indoorEnabled != null) {
+      sink.setIndoorEnabled(toBoolean(indoorEnabled));
     }
   }
 
