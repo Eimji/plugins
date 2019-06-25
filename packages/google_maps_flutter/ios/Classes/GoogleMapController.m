@@ -337,9 +337,9 @@ static double ToDouble(NSNumber* data) { return [FLTGoogleMapJsonConversions toD
   _mapView.settings.myLocationButton = enabled;
 }
 
-- (void)setMyLocationButtonVerticalPadding:(int)padding {
-  if (_mapView.settings.myLocationButton && padding > 0) {
-    _mapViewBottomPadding = padding;
+- (void)setMyLocationButtonVerticalPadding:(int)verticalPadding {
+  if (_mapView.settings.myLocationButton && verticalPadding > 0) {
+    _mapViewBottomPadding = verticalPadding;
     _mapView.padding = UIEdgeInsetsMake(0, 0, _mapViewBottomPadding, 0);
   }
 }

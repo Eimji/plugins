@@ -24,6 +24,7 @@
 - (void)setZoomGesturesEnabled:(BOOL)enabled;
 - (void)setMyLocationEnabled:(BOOL)enabled;
 - (void)setMyLocationButtonEnabled:(BOOL)enabled;
+- (void)setMyLocationButtonVerticalPadding:(int)verticalPadding;
 - (NSString *)setMapStyle:(NSString *)mapStyle;
 @end
 
