@@ -311,6 +311,7 @@ class Convert {
     final Object myLocationButtonVerticalPadding = data.get("myLocationButtonVerticalPadding");
     if (myLocationButtonVerticalPadding != null) {
       sink.setMyLocationButtonVerticalPadding(toInt(myLocationButtonVerticalPadding));
+    }
     final Object indoorEnabled = data.get("indoorEnabled");
     if (indoorEnabled != null) {
       sink.setIndoorEnabled(toBoolean(indoorEnabled));
