@@ -44,7 +44,6 @@ static double ToDouble(NSNumber* data) { return [FLTGoogleMapJsonConversions toD
 
 @implementation FLTGoogleMapController {
   GMSMapView* _mapView;
-  int _mapViewBottomPadding;
   int64_t _viewId;
   FlutterMethodChannel* _channel;
   BOOL _trackCameraPosition;
@@ -113,24 +112,12 @@ static double ToDouble(NSNumber* data) { return [FLTGoogleMapJsonConversions toD
     if ([circlesToAdd isKindOfClass:[NSArray class]]) {
       [_circlesController addCircles:circlesToAdd];
     }
-
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver: self selector:   @selector(deviceOrientationDidChange:) name: UIDeviceOrientationDidChangeNotification object: nil];
   }
   return self;
 }
 
-- (void)deviceOrientationDidChange:(NSNotification *)notification {
-  _mapView.padding = UIEdgeInsetsMake(0, 0, _mapViewBottomPadding, 0);
-}
-
 - (UIView*)view {
   return _mapView;
-}
-
--(void) dealloc{
-  [[NSNotificationCenter defaultCenter] removeObserver: self];
-  [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
 }
 
 - (void)onMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
@@ -339,8 +326,7 @@ static double ToDouble(NSNumber* data) { return [FLTGoogleMapJsonConversions toD
 
 - (void)setMyLocationButtonVerticalPadding:(int)verticalPadding {
   if (_mapView.settings.myLocationButton && verticalPadding > 0) {
-    _mapViewBottomPadding = verticalPadding;
-    _mapView.padding = UIEdgeInsetsMake(0, 0, _mapViewBottomPadding, 0);
+    _mapView.padding = UIEdgeInsetsMake(0, 0, verticalPadding, 0);
   }
 }
 
@@ -537,7 +523,9 @@ static void InterpretMapOptions(NSDictionary* data, id<FLTGoogleMapOptionsSink> 
     float left = (paddingData[1] == [NSNull null]) ? 0 : ToFloat(paddingData[1]);
     float bottom = (paddingData[2] == [NSNull null]) ? 0 : ToFloat(paddingData[2]);
     float right = (paddingData[3] == [NSNull null]) ? 0 : ToFloat(paddingData[3]);
-    [sink setPaddingTop:top left:left bottom:bottom right:right];
+    if (top != 0 || left != 0 || bottom != 0 || right != 0) {
+      [sink setPaddingTop:top left:left bottom:bottom right:right];
+    }
   }
 
   NSNumber* rotateGesturesEnabled = data[@"rotateGesturesEnabled"];

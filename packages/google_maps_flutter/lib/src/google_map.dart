@@ -408,6 +408,7 @@ class _GoogleMapOptions {
   final bool myLocationButtonEnabled;
 
   final int myLocationButtonVerticalPadding;
+
   final EdgeInsets padding;
 
   final bool indoorViewEnabled;
@@ -433,7 +434,6 @@ class _GoogleMapOptions {
     addIfNonNull('myLocationEnabled', myLocationEnabled);
     addIfNonNull('myLocationButtonEnabled', myLocationButtonEnabled);
     addIfNonNull('myLocationButtonVerticalPadding', myLocationButtonVerticalPadding);
-
     addIfNonNull('padding', <double>[
       padding?.top,
       padding?.left,
