@@ -53,6 +53,11 @@ class GoogleMapBuilder implements GoogleMapOptionsSink {
   }
 
   @Override
+  public void setMapToolbarEnabled(boolean setMapToolbarEnabled) {
+    options.mapToolbarEnabled(setMapToolbarEnabled);
+  }
+
+  @Override
   public void setCameraTargetBounds(LatLngBounds bounds) {
     options.latLngBoundsForCameraTarget(bounds);
   }
