@@ -1,3 +1,11 @@
+## 0.3.10+2
+
+* Fix InputConnection being lost when combined with route transitions.
+
+## 0.3.10+1
+
+* Add support for simultaenous Flutter `TextInput` and WebView text fields.
+
 ## 0.3.10
 
 * Add partial WebView keyboard support for Android versions prior to N. Support
